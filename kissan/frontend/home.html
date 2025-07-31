@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Krishi Home</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+    <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-container">
+      <div class="logo">🌾 Krishi</div>
+      <nav class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="price.html">Crop Prediction</a>
+        <a href="weather.html">Weather</a>
+        <a href="news.html">News</a>
+        <a href="chat.html">Chat</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="home-main">
+    <div class="grain-overlay"></div>
+
+    <!-- Carousel Section -->
+    <section class="hero-carousel" onmouseenter="pauseAutoplay()" onmouseleave="resumeAutoplay()">
+      <div class="slides-container" id="slides">
+        <!-- Slides will be injected by JS -->
+      </div>
+
+      <!-- Navigation Controls -->
+      <div class="carousel-controls">
+        <button class="carousel-arrow carousel-arrow-prev" onclick="prevSlide()">←</button>
+        <div class="carousel-indicators" id="indicators"></div>
+        <button class="carousel-arrow carousel-arrow-next" onclick="nextSlide()">→</button>
+      </div>
+
+      <div class="scroll-indicator">
+        <div class="scroll-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M19 12l-7 7-7-7"/>
+          </svg>
+        </div>
+        <span class="scroll-text">Scroll to explore</span>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="feature-highlights">
+      <div class="section-heading">
+        <h2>Smart Farming Solutions</h2>
+        <p>Empowering farmers with technology and data-driven insights</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon harvest-icon"></div>
+          <h3>Harvest Analytics</h3>
+          <p>Gain insights into market trends and make informed decisions.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon chat-icon"></div>
+          <h3>Krishi Chat</h3>
+          <p>Instant AI answers to your farming questions.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon crop-icon"></div>
+          <h3>Crop Recommendations</h3>
+          <p>Discover crops that thrive in your soil.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon weather-icon"></div>
+          <h3>Weather Insights</h3>
+          <p>Stay ahead of weather with local forecasts.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2>Ready to Transform Your <span>Farming Practices?</span></h2>
+        <p>Join thousands of farmers who enhanced productivity with us.</p>
+        <ul class="benefits-list">
+          <li>Increase crop yield by up to 25%</li>
+          <li>Reduce resource wastage</li>
+          <li>Real-time expert advice</li>
+          <li>Stay updated with market trends</li>
+        </ul>
+        <button class="btn btn-primary cta-button">
+          Get Started Today <span class="btn-icon">→</span>
+        </button>
+      </div>
+      <div class="cta-image"></div>
+    </section>
+  </main>
+
+  <script src="home.js"></script>
+</body>
+</html>
