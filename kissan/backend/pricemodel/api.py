@@ -7,16 +7,17 @@ from flask_cors import CORS
 # Initialize Flask app
 app = Flask(__name__, static_folder='../frontend')
 CORS(app)
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Load models and encoders
 try:
-    min_model = joblib.load("min_price_model.pkl")
-    max_model = joblib.load("max_price_model.pkl")
-    le_crop = joblib.load("le_crop.pkl")
-    le_district = joblib.load("le_district.pkl")
-    le_month = joblib.load("le_month.pkl")
-    le_soil = joblib.load("le_soil.pkl")
-    le_water = joblib.load("le_water.pkl")
+    min_model = joblib.load(os.path.join(BASE_DIR, "min_price_model.pkl"))
+    max_model = joblib.load(os.path.join(BASE_DIR, "max_price_model.pkl"))
+    le_crop = joblib.load(os.path.join(BASE_DIR, "le_crop.pkl"))
+    le_district = joblib.load(os.path.join(BASE_DIR, "le_district.pkl"))
+    le_month = joblib.load(os.path.join(BASE_DIR, "le_month.pkl"))
+    le_soil = joblib.load(os.path.join(BASE_DIR, "le_soil.pkl"))
+    le_water = joblib.load(os.path.join(BASE_DIR, "le_water.pkl"))
+    
 except Exception as e:
     print(f"Error loading models: {e}")
     raise e
