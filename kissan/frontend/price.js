@@ -1,3 +1,26 @@
+
+// Mobile Navigation Toggle
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  hamburger.innerHTML = navLinks.classList.contains('active') 
+    ? '<i class="fas fa-times"></i>' 
+    : '<i class="fas fa-bars"></i>';
+});
+
+// Close mobile menu when clicking on a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (navLinks.classList.contains('active')) {
+      navLinks.classList.remove('active');
+      hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+  });
+});
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('predictionForm');
     const submitBtn = document.getElementById('submitBtn');
