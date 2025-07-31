@@ -217,7 +217,6 @@ pyparsing==3.2.1
 pypdf==5.7.0
 PyPDF2==3.0.1
 PyPika==0.48.9
-pypiwin32==223
 pyproject-toml==0.0.10
 pyproject_hooks==1.2.0
 pyreadline3==3.5.4
