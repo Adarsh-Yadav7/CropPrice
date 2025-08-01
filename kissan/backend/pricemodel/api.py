@@ -1,85 +1,55 @@
-from flask import Blueprint, request, jsonify, send_from_directory
+from flask import Blueprint, request, jsonify
 import os
 import numpy as np
 import joblib
 
-# Define Blueprint
-price_bp = Blueprint("price", __name__, static_folder="../../frontend")
+# Define the blueprint
+price_bp = Blueprint("price", __name__)
 
-# Path to current directory
+# Base directory (used to locate model files)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Load models and encoders
-try:
-    min_model = joblib.load(os.path.join(BASE_DIR, "min_price_model.pkl"))
-    max_model = joblib.load(os.path.join(BASE_DIR, "max_price_model.pkl"))
-    le_crop = joblib.load(os.path.join(BASE_DIR, "le_crop.pkl"))
-    le_district = joblib.load(os.path.join(BASE_DIR, "le_district.pkl"))
-    le_month = joblib.load(os.path.join(BASE_DIR, "le_month.pkl"))
-    le_soil = joblib.load(os.path.join(BASE_DIR, "le_soil.pkl"))
-    le_water = joblib.load(os.path.join(BASE_DIR, "le_water.pkl"))
-except Exception as e:
-    print(f"Error loading models: {e}")
-    raise e
+# Load trained model and encoders
+model_path = os.path.join(BASE_DIR, "crop_price_model.pkl")
+le_crop = joblib.load(os.path.join(BASE_DIR, "le_crop.pkl"))
+le_district = joblib.load(os.path.join(BASE_DIR, "le_district.pkl"))
+le_month = joblib.load(os.path.join(BASE_DIR, "le_month.pkl"))
+le_soil = joblib.load(os.path.join(BASE_DIR, "le_soil.pkl"))
+le_water = joblib.load(os.path.join(BASE_DIR, "le_water.pkl"))
+model = joblib.load(model_path)
 
-# Serve HTML files
-@price_bp.route('/', defaults={'path': ''})
-@price_bp.route('/<path:path>')
-def serve(path):
-    if path != "" and os.path.exists(os.path.join(price_bp.static_folder, path)):
-        return send_from_directory(price_bp.static_folder, path)
-    return send_from_directory(price_bp.static_folder, 'home.html')
-
-@price_bp.route('/price')
-def price_page():
-    return send_from_directory(price_bp.static_folder, 'price.html')
-
-# Prediction route
-@price_bp.route('/predict', methods=['POST'])
+# Predict route
+@price_bp.route("/predict", methods=["POST"])
 def predict_price():
     try:
         data = request.get_json()
+        crop = data.get("crop")
+        district = data.get("district")
+        month = data.get("month")
+        soil = data.get("soil")
+        water = data.get("water")
 
-        crop = data['crop']
-        district = data['district']
-        month = data['month']
-        soil = data['soil']
-        water = data['water']
+        # Log received values (for debugging)
+        print("Received data:", data)
 
-        # Optional: Accept year if sent
-        year = data.get("year", "")
+        # Validate input values
+        try:
+            crop_encoded = le_crop.transform([crop])[0]
+            district_encoded = le_district.transform([district])[0]
+            month_encoded = le_month.transform([month])[0]
+            soil_encoded = le_soil.transform([soil])[0]
+            water_encoded = le_water.transform([water])[0]
+        except ValueError as ve:
+            return jsonify({'status': 'error', 'message': f'Invalid input: {ve}'}), 400
 
-        # Encode categorical variables
-        crop_encoded = le_crop.transform([crop])[0]
-        district_encoded = le_district.transform([district])[0]
-        month_encoded = le_month.transform([month])[0]
-        soil_encoded = le_soil.transform([soil])[0]
-        water_encoded = le_water.transform([water])[0]
+        # Prepare input for prediction
+        features = np.array([[crop_encoded, district_encoded, month_encoded, soil_encoded, water_encoded]])
 
-        # Prepare input array
-        input_data = np.array([[crop_encoded, district_encoded, month_encoded, soil_encoded, water_encoded]])
+        # Predict using model
+        predicted_price = model.predict(features)[0]
 
-        # Predict min and max prices
-        min_price = min_model.predict(input_data)[0]
-        max_price = max_model.predict(input_data)[0]
-
-        return jsonify({
-            "status": "success",
-            "data": {
-                "predicted_prices": {
-                    "min": round(min_price, 2),
-                    "max": round(max_price, 2)
-                },
-                "input_data": {
-                    "crop": crop,
-                    "district": district,
-                    "month": month,
-                    "soil": soil,
-                    "water": water,
-                    "year": year
-                }
-            }
-        })
-
+        return jsonify({'status': 'success', 'predicted_price': round(predicted_price, 2)})
+    
     except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        print("Prediction error:", str(e))
+        return jsonify({'status': 'error', 'message': 'Prediction failed'}), 500
