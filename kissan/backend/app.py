@@ -2,10 +2,11 @@ from flask import Flask
 from flask_cors import CORS
 
 # Import Blueprints
-from chatbot.api import chatbot_bp
-from weatherapi.api import weather_bp
-from news.api import news_bp
-from pricemodel.api import price_bp
+from backend.chatbot.api import chatbot_bp
+from backend.weatherapi.api import weather_bp
+from backend.news.api import news_bp
+from backend.pricemodel.api import price_bp
+
 
 app = Flask(__name__)
 CORS(app)
