@@ -18,7 +18,6 @@ le_soil = joblib.load(os.path.join(BASE_DIR, "le_soil.pkl"))
 le_water = joblib.load(os.path.join(BASE_DIR, "le_water.pkl"))
 model = joblib.load(model_path)
 
-# Predict route
 @price_bp.route("/predict", methods=["POST"])
 def predict_price():
     try:
@@ -28,11 +27,10 @@ def predict_price():
         month = data.get("month")
         soil = data.get("soil")
         water = data.get("water")
+        year = data.get("year", "")
 
-        # Log received values (for debugging)
         print("Received data:", data)
 
-        # Validate input values
         try:
             crop_encoded = le_crop.transform([crop])[0]
             district_encoded = le_district.transform([district])[0]
@@ -42,14 +40,31 @@ def predict_price():
         except ValueError as ve:
             return jsonify({'status': 'error', 'message': f'Invalid input: {ve}'}), 400
 
-        # Prepare input for prediction
         features = np.array([[crop_encoded, district_encoded, month_encoded, soil_encoded, water_encoded]])
-
-        # Predict using model
         predicted_price = model.predict(features)[0]
 
-        return jsonify({'status': 'success', 'predicted_price': round(predicted_price, 2)})
-    
+        # You can use the same value for both min/max OR calculate ranges if needed
+        min_price = round(predicted_price * 0.9, 2)
+        max_price = round(predicted_price * 1.1, 2)
+
+        return jsonify({
+            "status": "success",
+            "data": {
+                "predicted_prices": {
+                    "min": min_price,
+                    "max": max_price
+                },
+                "input_data": {
+                    "crop": crop,
+                    "district": district,
+                    "month": month,
+                    "year": year,
+                    "soil": soil,
+                    "water": water
+                }
+            }
+        })
+
     except Exception as e:
         print("Prediction error:", str(e))
         return jsonify({'status': 'error', 'message': 'Prediction failed'}), 500
