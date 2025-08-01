@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   errorMessage.style.display = 'none';
   weatherContent.style.display = 'none';
 
-  const url = new URL('http://localhost:3500/weather');
+  const url = new URL('https://cropprice400.onrender.com/weatherapi/get');
   url.searchParams.append('state', stateInput.value);
   url.searchParams.append('city', cityInput.value);
 
