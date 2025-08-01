@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Price Trends | Krishi Moolya</title>
+  <link rel="stylesheet" href="trend.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-container">
+      <div class="logo">🌾 Krishi</div>
+      <nav class="nav-links" id="navLinks">
+        <a href="home.html">Home</a>
+        <a href="price.html">Crop Prediction</a>
+        <a href="crop.html">Crop Recommendation</a>
+        <a href="trend.html">Price Trend</a>
+        <a href="weather.html">Weather</a>
+        <a href="news.html">News</a>
+        <a href="chat.html">Chat</a>
+
+      </nav>
+      <button class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- Trend Form Section -->
+  <div class="trend-form-container">
+    <h2>📈 Market Price Trend Analysis</h2>
+    <div class="form-fields">
+      <select id="crop" required>
+        <option value="">Select Crop</option>
+        <option value="Wheat">Wheat</option>
+        <option value="Maize">Maize</option>
+        <option value="Jowar">Jowar</option>
+        <option value="Soybean">Soybean</option>
+      </select>
+
+      <select id="location" required>
+        <option value="">Select Location</option>
+        <option value="Indore">Indore</option>
+        <option value="Bhopal">Bhopal</option>
+        <option value="Ujjain">Ujjain</option>
+        <option value="Jabalpur">Jabalpur</option>
+        <option value="Gwalior">Gwalior</option>
+        <option value="Rewa">Rewa</option>
+        <option value="Sagar">Sagar</option>
+      </select>
+
+      <button onclick="fetchTrend()">Get Trend</button>
+    </div>
+<!-- Inside <body> -->
+<div class="trend-wrapper">
+  <!-- Left: Chart -->
+  <div class="chart-section">
+    <canvas id="trendChart"></canvas>
+  </div>
+
+  <!-- Right: Insight -->
+  <div id="insightBox" class="insight-box" style="display: none;">
+    <!-- Insight will appear here -->
+  </div>
+</div>
+
+  <script src="trend.js"></script>
+</body>
+</html>
