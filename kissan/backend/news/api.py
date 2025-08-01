@@ -1,25 +1,22 @@
-from flask import Flask, jsonify, request
+from flask import Blueprint, jsonify, request
 import requests
-from flask_cors import CORS
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+news_bp = Blueprint("news", __name__)  # ✅ define a blueprint
 
 API_KEY = "ade15208349440759c397f57935b64f1"
 BASE_URL = "https://newsapi.org/v2/everything"
 
-@app.route('/real-time-news', methods=['GET'])
+@news_bp.route('/real-time-news', methods=['GET'])
 def get_real_time_news():
     query = request.args.get('query', 'agriculture')  # Default to 'agriculture'
     page_size = int(request.args.get('page_size', 8))  # Top 8 news
-    country = 'in'  # Focus on India (used in query for relevance)
 
     try:
         response = requests.get(
             BASE_URL,
             params={
                 'apiKey': API_KEY,
-                'q': f'{query} AND India',   # Filter news containing agriculture + India
+                'q': f'{query} AND India',
                 'language': 'en',
                 'pageSize': page_size,
                 'sortBy': 'publishedAt'
@@ -47,6 +44,3 @@ def get_real_time_news():
 
     except requests.exceptions.RequestException as e:
         return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True, port=7070)
