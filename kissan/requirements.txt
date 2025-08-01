@@ -1,5 +1,7 @@
 Flask
 flask-cors
+google-generativeai
+requests
 joblib
 pandas
 numpy
