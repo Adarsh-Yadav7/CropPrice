@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Fetching news...'); // Debug log
 
     // Using fetch instead of axios
-    fetch('http://localhost:7070/real-time-news?query=farming&page_size=8')
+    fetch('https://cropprice400.onrender.com/real-time-news?query=farming&page_size=8')
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
