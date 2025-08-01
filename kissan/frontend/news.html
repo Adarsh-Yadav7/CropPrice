@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Krishi Home</title>
+  <link rel="stylesheet" href="news.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+     <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-container">
+      <div class="logo">🌾 Krishi</div>
+      <nav class="nav-links" id="navLinks">
+        <a href="home.html">Home</a>
+        <a href="price.html">Crop Prediction</a>
+        <a href="weather.html">Weather</a>
+        <a href="news.html">News</a>
+        <a href="chat.html">Chat</a>
+      </nav>
+      <button class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="news-dashboard">
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="header-content">
+        <div class="header-icon">📰</div>
+        <h2>Agricultural News Hub</h2>
+        <p>Stay updated with the latest farming trends and insights</p>
+      </div>
+      
+      <!-- Floating Elements -->
+      <div class="floating-elements">
+        <div class="floating-element wheat-1">🌾</div>
+        <div class="floating-element leaf-1">🍃</div>
+        <div class="floating-element sun">☀️</div>
+      </div>
+    </div>
+
+    <!-- News Toggle Box -->
+    <div class="news-toggle-container">
+      <div class="news-box" id="newsToggleBox">
+        <div class="news-box-content">
+          <span class="toggle-icon">📰</span>
+          <h3>Show Latest News</h3>
+          <p id="newsCount">0 articles available</p>
+        </div>
+        <div class="ripple-effect"></div>
+      </div>
+    </div>
+
+    <!-- News Container -->
+    <div class="news-content-wrapper" id="newsContentWrapper" style="display: none;">
+      <!-- Control Panel -->
+      <div class="control-panel">
+        <div class="news-counter">
+          <span id="currentIndex">1</span> of <span id="totalNews">0</span>
+        </div>
+        
+        <div class="control-buttons">
+          <button class="auto-play-btn" id="autoPlayBtn" title="Start Auto-play">
+            ▶️
+          </button>
+        </div>
+      </div>
+
+      <!-- News Card Display -->
+      <div class="news-container">
+        <div class="news-track" id="newsTrack">
+          <!-- News cards will be inserted here by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Navigation Controls -->
+      <div class="navigation-controls">
+        <button class="nav-btn prev-btn" id="prevBtn">
+          <span>‹</span>
+        </button>
+        
+        <div class="dots-container" id="dotsContainer">
+          <!-- Dots will be inserted here by JavaScript -->
+        </div>
+        
+        <button class="nav-btn next-btn" id="nextBtn">
+          <span>›</span>
+        </button>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- Loading Container -->
+    <div class="loading-container" id="loadingContainer">
+      <div class="wheat-loader">
+        <div class="wheat-grain"></div>
+        <div class="wheat-grain"></div>
+        <div class="wheat-grain"></div>
+      </div>
+      <p>Harvesting the latest farming news...</p>
+    </div>
+
+    <!-- Error Container -->
+    <div class="error-container" id="errorContainer" style="display: none;">
+      <div class="error-icon">🌾</div>
+      <h3>Oops! Something went wrong</h3>
+      <p id="errorMessage"></p>
+      <button class="retry-btn" id="retryBtn">Try Again</button>
+    </div>
+  </div>
+
+  <script src="news.js"></script>
+</body>
+</html>
