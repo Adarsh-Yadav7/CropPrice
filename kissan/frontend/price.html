@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-     <!-- Navbar -->
   <header class="navbar">
     <div class="navbar-container">
       <div class="logo">🌾 Krishi</div>
@@ -26,87 +24,100 @@
     </div>
   </header>
 
-    <div class="prediction-form-container">
-        <h2>🌾 Crop Price Prediction</h2>
-        <form id="predictionForm">
-            <select name="crop" id="crop" required>
-                <option value="">Select Crop</option>
-                <option value="Wheat">Wheat</option>
-                <option value="Maize">Maize</option>
-                <option value="Jowar">Jowar</option>
-                <option value="Soybean">Soybean</option>
-            </select>
+  <div class="prediction-form-container">
+    <h2>🌾 Crop Price Prediction</h2>
+    <form id="predictionForm">
+      <select name="crop" id="crop" required>
+        <option value="">Select Crop</option>
+        <option value="Wheat">Wheat</option>
+        <option value="Maize">Maize</option>
+        <option value="Jowar">Jowar</option>
+        <option value="Soybean">Soybean</option>
+      </select>
 
-            <select name="district" id="district" required>
-                <option value="">Select District</option>
-                <option value="Indore">Indore</option>
-                <option value="Bhopal">Bhopal</option>
-                <option value="Ujjain">Ujjain</option>
-                <option value="Jabalpur">Jabalpur</option>
-                <option value="Gwalior">Gwalior</option>
-                <option value="Rewa">Rewa</option>
-                <option value="Sagar">Sagar</option>
-            </select>
+      <select name="district" id="district" required>
+        <option value="">Select District</option>
+        <option value="Indore">Indore</option>
+        <option value="Bhopal">Bhopal</option>
+        <option value="Ujjain">Ujjain</option>
+        <option value="Jabalpur">Jabalpur</option>
+        <option value="Gwalior">Gwalior</option>
+        <option value="Rewa">Rewa</option>
+        <option value="Sagar">Sagar</option>
+      </select>
 
-            <select name="month" id="month" required>
-                <option value="">Select Month</option>
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
-                <!-- Add other months -->
-            </select>
+      <select name="month" id="month" required>
+        <option value="">Select Month</option>
+        <option value="January">January</option>
+        <option value="February">February</option>
+        <option value="March">March</option>
+        <option value="April">April</option>
+        <option value="May">May</option>
+        <option value="June">June</option>
+        <option value="July">July</option>
+        <option value="August">August</option>
+        <option value="September">September</option>
+        <option value="October">October</option>
+        <option value="November">November</option>
+        <option value="December">December</option>
+      </select>
 
-            <input
-                type="number"
-                name="year"
-                id="year"
-                placeholder="Enter Year (e.g. 2026)"
-                min="2025"
-                max="2026"
-                required
-            />
+      <input
+        type="number"
+        name="year"
+        id="year"
+        placeholder="Enter Year (e.g. 2026)"
+        min="2025"
+        max="2026"
+        required
+      />
 
-            <select name="soil" id="soil" required>
-                <option value="">Select Soil Type</option>
-                <option value="Sandy">Sandy</option>
-                <option value="Loamy">Loamy</option>
-                <option value="Black">Black</option>
-                <option value="Red">Red</option>
-            </select>
+      <select name="soil" id="soil" required>
+        <option value="">Select Soil Type</option>
+        <option value="Sandy">Sandy</option>
+        <option value="Loamy">Loamy</option>
+        <option value="Black">Black</option>
+        <option value="Red">Red</option>
+      </select>
 
-            <select name="water" id="water" required>
-                <option value="">Select Water Availability</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-            </select>
+      <select name="water" id="water" required>
+        <option value="">Select Water Availability</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
 
-            <button type="submit" id="submitBtn">
-                Predict Price
-            </button>
-        </form>
+      <button type="submit" id="submitBtn">
+        Predict Price
+      </button>
+    </form>
 
-        <div id="error" class="error-message" style="display: none;"></div>
-
-        <div id="result" class="result" style="display: none;">
-            <h3>✅ Prediction Results</h3>
-            <div id="inputDetails" class="input-details"></div>
-            <div class="price-results">
-                <p><strong>Predicted Min Price:</strong> ₹<span id="minPrice">0.00</span></p>
-                <p><strong>Predicted Max Price:</strong> ₹<span id="maxPrice">0.00</span></p>
-            </div>
-        </div>
+    <div id="error" class="error-message" style="display: none;"></div>
+    
+    <!-- Crop Animation Section -->
+    <div id="cropAnimation" class="crop-animation" style="display: none;">
+      <div class="crop wheat"></div>
+      <div class="crop maize"></div>
+      <div class="crop soybean"></div>
     </div>
 
-    <script src="price.js"></script>
+    <!-- Price Trend Visualization -->
+    <div id="priceTrend" class="price-trend" style="display: none;">
+      <div class="trend-line"></div>
+      <!-- Trend points will be added dynamically -->
+    </div>
+
+    <!-- Results Section -->
+    <div id="result" class="result" style="display: none;">
+      <h3>✅ Prediction Results</h3>
+      <div id="inputDetails" class="input-details"></div>
+      <div class="price-results">
+        <p><strong>Predicted Min Price:</strong> ₹<span id="minPrice">0.00</span></p>
+        <p><strong>Predicted Max Price:</strong> ₹<span id="maxPrice">0.00</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="price.js"></script>
 </body>
 </html>
