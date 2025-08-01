@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi Chat - Agricultural Assistant</title>
+    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">🌾 Krishi</div>
+            <nav class="nav-links" id="navLinks">
+                <a href="home.html">Home</a>
+                <a href="price.html">Crop Prediction</a>
+                <a href="weather.html">Weather</a>
+                <a href="news.html">News</a>
+                <a href="chat.html">Chat</a>
+            </nav>
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Krishi Chat Assistant</h1>
+            <p>Get instant answers to your agricultural questions</p>
+        </div>
+
+        <div class="chat-box" id="chatBox">
+            <!-- Messages will appear here -->
+            <div class="bot-message">
+                <div class="message-content">
+                    <div class="bot-icon">🌾</div>
+                    <div class="message-text">
+                        <p>Namaste! I'm your Krishi assistant. How can I help you with farming today?</p>
+                        <div class="suggested-questions">
+                            <button class="suggestion-btn">Best crops for black soil</button>
+                            <button class="suggestion-btn">How to treat pest attacks</button>
+                            <button class="suggestion-btn">Latest irrigation techniques</button>
+                            <button class="suggestion-btn">Organic farming methods</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input 
+                type="text" 
+                id="userInput" 
+                placeholder="Ask me anything about farming..." 
+                autocomplete="off"
+            >
+            <button id="sendButton">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
