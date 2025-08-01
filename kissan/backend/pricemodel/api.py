@@ -1,70 +1,111 @@
-from flask import Blueprint, request, jsonify
-import os
-import numpy as np
+
+
+from flask import Flask, request, jsonify, send_from_directory
 import joblib
+import pandas as pd
+import os
+from flask_cors import CORS
 
-# Define the blueprint
-price_bp = Blueprint("price", __name__)
-
-# Base directory (used to locate model files)
+# Initialize Flask app
+app = Flask(__name__, static_folder='../frontend')
+CORS(app)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Load models and encoders
+try:
+    min_model = joblib.load(os.path.join(BASE_DIR, "min_price_model.pkl"))
+    max_model = joblib.load(os.path.join(BASE_DIR, "max_price_model.pkl"))
+    le_crop = joblib.load(os.path.join(BASE_DIR, "le_crop.pkl"))
+    le_district = joblib.load(os.path.join(BASE_DIR, "le_district.pkl"))
+    le_month = joblib.load(os.path.join(BASE_DIR, "le_month.pkl"))
+    le_soil = joblib.load(os.path.join(BASE_DIR, "le_soil.pkl"))
+    le_water = joblib.load(os.path.join(BASE_DIR, "le_water.pkl"))
+    
+except Exception as e:
+    print(f"Error loading models: {e}")
+    raise e
 
-# Load trained model and encoders
-model_path = os.path.join(BASE_DIR, "crop_price_model.pkl")
-le_crop = joblib.load(os.path.join(BASE_DIR, "le_crop.pkl"))
-le_district = joblib.load(os.path.join(BASE_DIR, "le_district.pkl"))
-le_month = joblib.load(os.path.join(BASE_DIR, "le_month.pkl"))
-le_soil = joblib.load(os.path.join(BASE_DIR, "le_soil.pkl"))
-le_water = joblib.load(os.path.join(BASE_DIR, "le_water.pkl"))
-model = joblib.load(model_path)
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, 'home.html')
 
-@price_bp.route("/predict", methods=["POST"])
+@app.route('/price')
+def price_page():
+    return send_from_directory(app.static_folder, 'price.html')
+
+@app.route('/predict', methods=['POST'])
 def predict_price():
     try:
+        # Validate request has JSON data
+        if not request.is_json:
+            return jsonify({
+                'status': 'error',
+                'message': 'Request must be JSON',
+                'error_code': 'invalid_content_type'
+            }), 400
+
         data = request.get_json()
-        crop = data.get("crop")
-        district = data.get("district")
-        month = data.get("month")
-        soil = data.get("soil")
-        water = data.get("water")
-        year = data.get("year", "")
 
-        print("Received data:", data)
+        # Validate required fields
+        required_fields = ['crop', 'district', 'month', 'year', 'soil', 'water']
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({
+                'status': 'error',
+                'message': f'Missing required fields: {", ".join(missing_fields)}',
+                'error_code': 'missing_fields'
+            }), 400
 
-        try:
-            crop_encoded = le_crop.transform([crop])[0]
-            district_encoded = le_district.transform([district])[0]
-            month_encoded = le_month.transform([month])[0]
-            soil_encoded = le_soil.transform([soil])[0]
-            water_encoded = le_water.transform([water])[0]
-        except ValueError as ve:
-            return jsonify({'status': 'error', 'message': f'Invalid input: {ve}'}), 400
+        # Transform user input
+        input_data = pd.DataFrame([{
+            'Crop': le_crop.transform([data['crop']])[0],
+            'District': le_district.transform([data['district']])[0],
+            'Month': le_month.transform([data['month']])[0],
+            'Year': int(data['year']),
+            'Soil_Type': le_soil.transform([data['soil']])[0],
+            'Water_Availability': le_water.transform([data['water']])[0]
+        }])
 
-        features = np.array([[crop_encoded, district_encoded, month_encoded, soil_encoded, water_encoded]])
-        predicted_price = model.predict(features)[0]
-
-        # You can use the same value for both min/max OR calculate ranges if needed
-        min_price = round(predicted_price * 0.9, 2)
-        max_price = round(predicted_price * 1.1, 2)
+        # Make predictions
+        min_price = float(min_model.predict(input_data)[0])
+        max_price = float(max_model.predict(input_data)[0])
 
         return jsonify({
-            "status": "success",
-            "data": {
-                "predicted_prices": {
-                    "min": min_price,
-                    "max": max_price
+            'status': 'success',
+            'data': {
+                'predicted_prices': {
+                    'min': round(min_price, 2),
+                    'max': round(max_price, 2)
                 },
-                "input_data": {
-                    "crop": crop,
-                    "district": district,
-                    "month": month,
-                    "year": year,
-                    "soil": soil,
-                    "water": water
+                'input_data': {
+                    'crop': data['crop'],
+                    'district': data['district'],
+                    'month': data['month'],
+                    'year': data['year'],
+                    'soil': data['soil'],
+                    'water': data['water']
                 }
             }
         })
 
+    except ValueError as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'Invalid input value: {str(e)}',
+            'error_code': 'invalid_value'
+        }), 400
     except Exception as e:
-        print("Prediction error:", str(e))
-        return jsonify({'status': 'error', 'message': 'Prediction failed'}), 500
+        return jsonify({
+            'status': 'error',
+            'message': f'Prediction failed: {str(e)}',
+            'error_code': 'prediction_failed'
+        }), 500
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+if __name__ != "__main__":
+    application = app
+
