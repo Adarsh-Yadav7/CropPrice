@@ -46,6 +46,9 @@ def predict_price():
         soil = data['soil']
         water = data['water']
 
+        # Optional: Accept year if sent
+        year = data.get("year", "")
+
         # Encode categorical variables
         crop_encoded = le_crop.transform([crop])[0]
         district_encoded = le_district.transform([district])[0]
@@ -61,9 +64,22 @@ def predict_price():
         max_price = max_model.predict(input_data)[0]
 
         return jsonify({
-            'min_price': round(min_price, 2),
-            'max_price': round(max_price, 2)
+            "status": "success",
+            "data": {
+                "predicted_prices": {
+                    "min": round(min_price, 2),
+                    "max": round(max_price, 2)
+                },
+                "input_data": {
+                    "crop": crop,
+                    "district": district,
+                    "month": month,
+                    "soil": soil,
+                    "water": water,
+                    "year": year
+                }
+            }
         })
 
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({'status': 'error', 'message': str(e)}), 500
