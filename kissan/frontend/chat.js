@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const typingIndicator = showTypingIndicator();
         
         try {
-            const response = await fetch('https://kissan.onrender.com/chat', {
+            const response = await fetch('https://cropprice400.onrender.com', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
