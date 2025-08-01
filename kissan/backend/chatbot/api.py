@@ -1,11 +1,7 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask import Blueprint, request, jsonify
 import google.generativeai as genai
 
-app = Flask(__name__)
-
-# Allow all origins (safe for public APIs without sensitive data)
-CORS(app)
+chatbot_bp = Blueprint("chatbot", __name__)  # ✅ This is correct
 
 # ✅ Gemini API Key (secure via env vars in production!)
 GEMINI_API_KEY = "AIzaSyCGS72o8teyhpXI1e5dZFIF-ckSvI1fssg"
@@ -25,7 +21,7 @@ Provide accurate, practical advice on:
 For non-agricultural queries, politely redirect to agricultural topics.
 Give responses in simple English or Hindi as appropriate."""
 
-@app.route('/chat', methods=['POST'])
+@chatbot_bp.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get("message", "").strip()
     
@@ -51,6 +47,3 @@ def chat():
 
     except Exception as e:
         return jsonify({"response": f"Sorry, I encountered an error: {str(e)}"})
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
