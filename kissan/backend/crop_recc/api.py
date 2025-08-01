@@ -1,11 +1,13 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import google.generativeai as genai
+
 import json
 import re
 
 app = Flask(__name__)
 CORS(app)
+from flask import Blueprint, request, jsonify
+import google.generativeai as genai
+
+chatbot_bp = Blueprint("crop_recc", __name__)  # ✅ This is correct
 
 # Configure Gemini
 GEMINI_API_KEY = "AIzaSyCGS72o8teyhpXI1e5dZFIF-ckSvI1fssg"  # Replace with your actual API key
