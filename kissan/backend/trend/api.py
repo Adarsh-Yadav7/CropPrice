@@ -1,43 +1,32 @@
-from flask import Flask, request, jsonify
+from flask import Blueprint, request, jsonify
 from flask_cors import CORS
 import google.generativeai as genai
-import requests
-from bs4 import BeautifulSoup
 import pandas as pd
-import re
-import json
 import numpy as np
 
-app = Flask(__name__)
-CORS(app)
+trend_bp = Blueprint("trend", __name__)
+CORS(trend_bp)
 
 # Gemini API setup
-GEMINI_API_KEY = "AIzaSyCGS72o8teyhpXI1e5dZFIF-ckSvI1fssg" # <-- Replace with yours
+GEMINI_API_KEY = "AIzaSyCGS72o8teyhpXI1e5dZFIF-ckSvI1fssg"  # <-- Replace with yours
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Web scraping mock (actual AGMARKNET is hard to scrape live due to JavaScript)
 def mock_crop_data(crop, location):
-    # Generate 30 days of dates
     dates = pd.date_range(end="2025-07-31", periods=30).strftime("%Y-%m-%d")
-    
-    # Start price between 1800-2200
     base_price = np.random.randint(1800, 2200)
-
-    # Simulate daily fluctuations between -100 to +100
     fluctuations = np.random.randint(-100, 100, size=30)
-
-    # Create price series with some volatility
     prices = [base_price]
     for i in range(1, 30):
         new_price = prices[-1] + fluctuations[i]
-        prices.append(max(1000, new_price))  # Ensure price doesn't go below 1000
+        prices.append(max(1000, new_price))  # Prevent price from dropping below 1000
 
     return pd.DataFrame({
         'Date': dates,
         'Price': prices
     })
 
-@app.route('/market-trend', methods=['POST'])
+@trend_bp.route('/market-trend', methods=['POST'])
 def get_market_trend():
     try:
         data = request.json
@@ -75,6 +64,3 @@ only 5 points Answer
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
