@@ -1,13 +1,11 @@
-
+from flask import Blueprint, request, jsonify
+from flask_cors import CORS
+import google.generativeai as genai
 import json
 import re
 
-app = Flask(__name__)
-CORS(app)
-from flask import Blueprint, request, jsonify
-import google.generativeai as genai
-
-chatbot_bp = Blueprint("crop_recc", __name__)  # ✅ This is correct
+crop_bp = Blueprint("crop_recc", __name__)
+CORS(crop_bp)
 
 # Configure Gemini
 GEMINI_API_KEY = "AIzaSyCGS72o8teyhpXI1e5dZFIF-ckSvI1fssg"  # Replace with your actual API key
@@ -38,7 +36,7 @@ Provide crop recommendations in this EXACT JSON format ONLY:
 }}
 ```"""
 
-@app.route('/recommend-crops', methods=['POST'])
+@crop_bp.route('/recommend-crops', methods=['POST'])
 def recommend_crops():
     try:
         data = request.json
@@ -87,6 +85,8 @@ def recommend_crops():
             "details": str(e)
         }), 500
 
+
 # Main runner
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
