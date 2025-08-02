@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi Chat - Agricultural Assistant</title>
+    <link rel="stylesheet" href="analysis.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">🌾 Krishi</div>
+            <nav class="nav-links" id="navLinks">
+                <a href="home.html">Home</a>
+                <a href="price.html">Crop Prediction</a>
+                <a href="crop.html">Crop Recommendation</a>
+                  <a href="analysis.html">Market Analysis</a>
+                <a href="trend.html">Price Trend</a>
+                <a href="weather.html">Weather</a>
+                <a href="news.html">News</a>
+                <a href="chat.html">Chat</a>
+            </nav>
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+<body>
+    <div class="farming-analysis-container">
+        <!-- Hero Header Section -->
+        <header class="farming-hero-header">
+            <div class="hero-background">
+                <img 
+                    src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2148&q=80" 
+                    alt="Agricultural Fields" 
+                    class="hero-image"
+                />
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1 class="farming-title">🌾 Agricultural Market Analysis 🌾</h1>
+                        <p class="farming-subtitle">Real-time insights for modern farming decisions</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="farming-content">
+            <!-- Market Overview Cards -->
+            <div class="market-overview">
+                <div class="overview-card">
+                    <div class="overview-icon">📈</div>
+                    <h3>Market Trends</h3>
+                    <p>Track crop price movements</p>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">🌱</div>
+                    <h3>Crop Analytics</h3>
+                    <p>Detailed performance metrics</p>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">💰</div>
+                    <h3>Price Forecasting</h3>
+                    <p>Predictive market analysis</p>
+                </div>
+            </div>
+
+            <!-- Top Gainers and Losers Section -->
+            <div class="analysis-grid">
+                <!-- Top Gainers -->
+                <div class="analysis-card gainers-card">
+                    <div class="card-header">
+                        <div class="card-icon gainers-icon">📊</div>
+                        <h2 class="section-title gainers-title">Top Performing Crops</h2>
+                    </div>
+                    <div class="card-image">
+                        <img 
+                            src="https://thumbs.dreamstime.com/b/line-graph-overlaying-decline-crop-yields-corresponding-increase-prices-food-staple-commodities-vector-386176409.jpg"
+                            alt="Thriving Crops" 
+                            class="section-image"
+                        />
+                    </div>
+                    <table class="analysis-table">
+                        <thead>
+                            <tr>
+                                <th>Crop</th>
+                                <th class="text-center">Price (₹)</th>
+                                <th class="text-center">Change</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-gainers-table">
+                            <!-- Filled by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Top Losers -->
+                <div class="analysis-card losers-card">
+                    <div class="card-header">
+                        <div class="card-icon losers-icon">📉</div>
+                        <h2 class="section-title losers-title">Declining Crops</h2>
+                    </div>
+                    <div class="card-image">
+                        <img 
+                            src="https://www.ishn.com/ext/resources/900x550/more-900x550/decrease-900.png?1564750559"
+                            alt="Farm Analysis" 
+                            class="section-image"
+                        />
+                    </div>
+                    <table class="analysis-table">
+                        <thead>
+                            <tr>
+                                <th>Crop</th>
+                                <th class="text-center">Price (₹)</th>
+                                <th class="text-center">Change</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-losers-table">
+                            <!-- Filled by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Crop Portfolio Section -->
+            <div class="crop-portfolio-section">
+                <div class="section-header">
+                    <img 
+                        src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                        alt="Crop Portfolio" 
+                        class="portfolio-bg"
+                    />
+                    <div class="section-overlay">
+                        <h2 class="portfolio-title">🌾 Comprehensive Crop Portfolio</h2>
+                        <p class="portfolio-subtitle">Select any crop for detailed market analysis</p>
+                    </div>
+                </div>
+                
+                <div class="crops-grid" id="crops-grid">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Selected Crop Details -->
+            <div class="analysis-card crop-details" id="crop-details" style="display: none;">
+                <div class="detail-header">
+                    <div class="detail-icon">📋</div>
+                    <h2 class="section-title">Detailed Analysis: <span id="selected-crop-name"></span></h2>
+                    <button 
+                        class="close-button"
+                        id="close-details"
+                    >
+                        ✕
+                    </button>
+                </div>
+                <div class="detail-content">
+                    <table class="analysis-table detailed-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Month</th>
+                                <th class="text-center">Average Price (₹)</th>
+                                <th class="text-center">Price Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crop-details-table">
+                            <!-- Filled by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="analysis.js"></script>
+</body>
+</html>
