@@ -33,7 +33,7 @@ async function fetchTrend() {
   }
 
   try {
-    const response = await fetch("https://cropprice-64y3.onrender.com/market-trend", {
+    const response = await fetch('https://cropprice-64y3.onrender.com/trend/market-trend', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ crop, location })
@@ -97,5 +97,6 @@ window.trendChartInstance = new Chart(ctx, {
     console.error(error);
   }
 }
+
 
 
