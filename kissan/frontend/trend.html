@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,22 +8,22 @@
   <link rel="stylesheet" href="trend.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Navbar -->
   <header class="navbar">
     <div class="navbar-container">
-      <div class="logo">🌾 Krishi</div>
+      <div class="logo">🌾 Krishi Moolya</div>
       <nav class="nav-links" id="navLinks">
-     
-                <a href="index.html">Home</a>
-                <a href="price.html">Crop Prediction</a>
-                <a href="crop.html">Crop Recommendation</a>
-                <a href="analysis.html">Market Analysis</a>
-                <a href="trend.html">Price Trend</a>
-                <a href="weather.html">Weather</a>
-                <a href="news.html">News</a>
-                <a href="chat.html">Chat</a>
+        <a href="index.html">Home</a>
+        <a href="price.html">Crop Prediction</a>
+        <a href="crop.html">Crop Recommendation</a>
+        <a href="analysis.html">Market Analysis</a>
+        <a href="trend.html">Price Trend</a>
+        <a href="weather.html">Weather</a>
+        <a href="news.html">News</a>
+        <a href="chat.html">Chat</a>
       </nav>
       <button class="hamburger" id="hamburger">
         <i class="fas fa-bars"></i>
@@ -30,57 +31,102 @@
     </div>
   </header>
 
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Trend Form Section -->
+    <section class="trend-form-container">
+      <h2><i class="fas fa-chart-line"></i> Market Price Trend Analysis</h2>
+      <p class="subtitle">Analyze historical price patterns to make informed decisions</p>
+      
+      <div class="form-fields">
+        <div class="form-group">
+          <label for="crop"><i class="fas fa-leaf"></i> Select Crop</label>
+          <select id="crop" required>
+            <option value="">Choose a crop...</option>
+            <option value="Wheat">Wheat</option>
+            <option value="Maize">Maize</option>
+            <option value="Jowar">Jowar</option>
+            <option value="Soybean">Soybean</option>
+            <option value="Rice">Rice</option>
+            <option value="Cotton">Cotton</option>
+          </select>
+        </div>
 
-  <!-- Trend Form Section -->
-  <div class="trend-form-container">
-    <h2>📈 Market Price Trend Analysis</h2>
-    <div class="form-fields">
-      <select id="crop" required>
-  <option value="">Select Crop</option>
-  <option value="Wheat">Wheat</option>
-  <option value="Maize">Maize</option>
-  <option value="Jowar">Jowar</option>
-  <option value="Soybean">Soybean</option>
-  <option value="Rice">Rice</option>
-  <option value="Barley">Barley</option>
-  <option value="Sugarcane">Sugarcane</option>
-  <option value="Cotton">Cotton</option>
-  <option value="Bajra">Bajra</option>
-  <option value="Mustard">Mustard</option>
-  <option value="Groundnut">Groundnut</option>
-  <option value="Lentil">Lentil</option>
-      </select>
+        <div class="form-group">
+          <label for="location"><i class="fas fa-map-marker-alt"></i> Select Location</label>
+          <select id="location" required>
+            <option value="">Choose a location...</option>
+            <option value="Indore">Indore</option>
+            <option value="Bhopal">Bhopal</option>
+            <option value="Ujjain">Ujjain</option>
+            <option value="Jabalpur">Jabalpur</option>
+            <option value="Gwalior">Gwalior</option>
+          </select>
+        </div>
 
-      <select id="location" required>
-        <option value="Indore">Indore</option>
-  <option value="Bhopal">Bhopal</option>
-  <option value="Ujjain">Ujjain</option>
-  <option value="Jabalpur">Jabalpur</option>
-  <option value="Gwalior">Gwalior</option>
-  <option value="Rewa">Rewa</option>
-  <option value="Sagar">Sagar</option>
-  <option value="Dewas">Dewas</option>
-  <option value="Ratlam">Ratlam</option>
-  <option value="Satna">Satna</option>
-  <option value="Chhindwara">Chhindwara</option>
-  <option value="Hoshangabad">Hoshangabad</option>
-  <option value="Sehore">Sehore</option>
-      </select>
+        <button onclick="fetchTrend()" class="cta-button">
+          <i class="fas fa-chart-pie"></i> Analyze Trend
+        </button>
+      </div>
+    </section>
 
-      <button onclick="fetchTrend()">Get Trend</button>
+    <!-- Results Section -->
+    <div class="trend-wrapper">
+      <!-- Chart Section -->
+      <section class="chart-section">
+        <div class="chart-header">
+          <h3><i class="fas fa-chart-bar"></i> Price Trend Visualization</h3>
+          <div class="chart-actions">
+            <button id="exportBtn"><i class="fas fa-download"></i> Export</button>
+            <button id="printBtn"><i class="fas fa-print"></i> Print</button>
+          </div>
+        </div>
+        <canvas id="trendChart"></canvas>
+        <div class="chart-footer">
+          <p><i class="fas fa-info-circle"></i> Hover over points for detailed values</p>
+        </div>
+      </section>
+
+      <!-- Insight Section -->
+      <section id="insightBox" class="insight-box">
+        <div class="insight-header">
+          <h3><i class="fas fa-lightbulb"></i> Market Insights</h3>
+          <div class="trend-indicator">
+            <span id="trendDirection"><i class="fas fa-arrow-up"></i> Upward</span>
+            <span id="trendPercentage">+12.5%</span>
+          </div>
+        </div>
+        <div class="insight-content" id="insightContent">
+          <p>Select a crop and location to view detailed market analysis and price trends.</p>
+        </div>
+        <div class="insight-footer">
+          <p><i class="fas fa-clock"></i> Last updated: <span id="lastUpdated">-</span></p>
+        </div>
+      </section>
     </div>
-<!-- Inside <body> -->
-<div class="trend-wrapper">
-  <!-- Left: Chart -->
-  <div class="chart-section">
-    <canvas id="trendChart"></canvas>
-  </div>
 
-  <!-- Right: Insight -->
-  <div id="insightBox" class="insight-box" style="display: none;">
-    <!-- Insight will appear here -->
-  </div>
-</div>
+    <!-- Additional Information -->
+    <section class="info-section">
+      <h3><i class="fas fa-book"></i> Understanding Price Trends</h3>
+      <div class="info-cards">
+        <div class="info-card">
+          <i class="fas fa-chart-line"></i>
+          <h4>Seasonal Patterns</h4>
+          <p>Crop prices often follow seasonal cycles based on planting and harvest periods, weather conditions, and market demand.</p>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-balance-scale"></i>
+          <h4>Supply & Demand</h4>
+          <p>Prices fluctuate based on the balance between available supply and consumer demand in local and global markets.</p>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-cloud-sun-rain"></i>
+          <h4>Weather Impact</h4>
+          <p>Extreme weather events can significantly affect crop yields, leading to price volatility in agricultural markets.</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script src="trend.js"></script>
 </body>
