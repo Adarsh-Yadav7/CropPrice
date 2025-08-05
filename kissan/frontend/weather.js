@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
   errorMessage.style.display = 'none';
   weatherContent.style.display = 'none';
 
-  const url = new URL('https://cropprice400.onrender.com/weatherapi/get');
+  const url = new URL('https://cropprice-64y3.onrender.com/weatherapi/get');
+  // #'https://cropprice400.onrender.com/weatherapi/get'
   url.searchParams.append('state', stateInput.value);
   url.searchParams.append('city', cityInput.value);
 
@@ -127,3 +128,4 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize with default values
   fetchWeatherData();
 });
+
