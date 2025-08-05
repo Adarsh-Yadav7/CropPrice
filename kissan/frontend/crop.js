@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     try {
-      const response = await fetch('https://cropprice-64y3.onrender.com/recommend-crops', {
+      const response = await fetch('https://cropprice-64y3.onrender.com/crop_recc/recommend-crops', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -113,3 +113,4 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 });
+
