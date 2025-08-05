@@ -8,6 +8,7 @@ weather_bp = Blueprint('weather_bp', __name__)
 API_KEY = "7a1bfddbee1d464a800200342250203"
 BASE_URL = "https://api.weatherapi.com/v1/forecast.json"
 
+# ⚠️ Generate agricultural alerts based on forecast
 def generate_agricultural_alerts(forecast):
     alerts = []
     for day in forecast:
@@ -16,7 +17,6 @@ def generate_agricultural_alerts(forecast):
         humidity = day['day']['avghumidity']
         condition = day['day']['condition']['text'].lower()
 
-        # Temperature alerts
         if avg_temp > 35:
             alerts.append({
                 'date': date,
@@ -32,7 +32,6 @@ def generate_agricultural_alerts(forecast):
                 'severity': 'medium'
             })
 
-        # Rain alerts
         if 'rain' in condition:
             alerts.append({
                 'date': date,
@@ -41,7 +40,6 @@ def generate_agricultural_alerts(forecast):
                 'severity': 'medium'
             })
 
-        # Humidity alerts
         if humidity > 80:
             alerts.append({
                 'date': date,
@@ -59,6 +57,7 @@ def generate_agricultural_alerts(forecast):
 
     return alerts
 
+# 🟢 Weather Route
 @weather_bp.route('/get', methods=['GET'])
 def get_weather():
     state = request.args.get('state', 'Madhya Pradesh')
@@ -76,42 +75,59 @@ def get_weather():
         }
     )
 
-    if response.status_code == 200:
-        data = response.json()
-
-        forecast = [
-            {
-                'date': day['date'],
-                'avg_temperature': day['day']['avgtemp_c'],
-                'min_temp': day['day']['mintemp_c'],
-                'max_temp': day['day']['maxtemp_c'],
-                'condition': day['day']['condition']['text'],
-                'icon': day['day']['condition']['icon'],
-                'humidity': day['day']['avghumidity'],
-                'precipitation': day['day']['totalprecip_mm'],
-                'uv_index': day['day']['uv'],
-                'wind_speed': day['day']['maxwind_kph']
-            }
-            for day in data['forecast']['forecastday']
-        ]
-
-        alerts = generate_agricultural_alerts(data['forecast']['forecastday'])
-
-        current = data.get('current', {})
-
-        return jsonify({
-            'location': data['location']['name'] + ", " + data['location']['region'],
-            'current': {
-                'temp': current.get('temp_c'),
-                'condition': current.get('condition', {}).get('text'),
-                'icon': current.get('condition', {}).get('icon'),
-                'humidity': current.get('humidity'),
-                'wind_speed': current.get('wind_kph'),
-                'feels_like': current.get('feelslike_c')
-            },
-            'forecast': forecast,
-            'alerts': alerts,
-            'last_updated': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        })
-    else:
+    if response.status_code != 200:
         return jsonify({'error': 'Unable to fetch weather data'}), response.status_code
+
+    data = response.json()
+
+    # 🟡 Forecast Data
+    forecast = [
+        {
+            'date': day['date'],
+            'avg_temperature': day['day']['avgtemp_c'],
+            'min_temp': day['day']['mintemp_c'],
+            'max_temp': day['day']['maxtemp_c'],
+            'condition': day['day']['condition']['text'],
+            'icon': day['day']['condition']['icon'],
+            'humidity': day['day']['avghumidity'],
+            'precipitation': day['day']['totalprecip_mm'],
+            'uv_index': day['day']['uv'],
+            'wind_speed': day['day']['maxwind_kph']
+        }
+        for day in data['forecast']['forecastday']
+    ]
+
+    # 🔴 Alerts
+    alerts = generate_agricultural_alerts(data['forecast']['forecastday'])
+
+    # 🔵 Warnings & Solutions (Based on today's condition)
+    today_condition = data['forecast']['forecastday'][0]['day']['condition']['text'].lower()
+    warning = ""
+    solution = ""
+
+    if 'rain' in today_condition:
+        warning = "Rain expected. Avoid irrigation."
+        solution = "Ensure proper drainage and avoid pesticide sprays today."
+    elif 'sunny' in today_condition or 'clear' in today_condition:
+        warning = "Hot and sunny day. Risk of heat stress for crops."
+        solution = "Irrigate early morning or late evening and use mulch to conserve moisture."
+
+    # 🔹 Current Weather
+    current = data.get('current', {})
+
+    return jsonify({
+        'location': data['location']['name'] + ", " + data['location']['region'],
+        'current': {
+            'temp': current.get('temp_c'),
+            'condition': current.get('condition', {}).get('text'),
+            'icon': current.get('condition', {}).get('icon'),
+            'humidity': current.get('humidity'),
+            'wind_speed': current.get('wind_kph'),
+            'feels_like': current.get('feelslike_c')
+        },
+        'forecast': forecast,
+        'alerts': alerts,
+        'warning': warning,
+        'solution': solution,
+        'last_updated': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    })
