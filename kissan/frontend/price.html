@@ -6,117 +6,150 @@
   <title>Krishi Home</title>
   <link rel="stylesheet" href="price.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Temporary inline style to ensure background works */
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      position: relative;
+    }
+  body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://static.investindia.gov.in/s3fs-public/2022-08/pexels-pixabay-207247.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -1;
+  filter: brightness(0.7);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: high-quality;
+}
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
-  <header class="navbar">
-    <div class="navbar-container">
-      <div class="logo">🌾 Krishi</div>
-      <nav class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="price.html">Crop Prediction</a>
-                <a href="crop.html">Crop Recommendation</a>
-                <a href="analysis.html">Market Analysis</a>
-                <a href="trend.html">Price Trend</a>
-                <a href="weather.html">Weather</a>
-                <a href="news.html">News</a>
-                <a href="chat.html">Chat</a>
-      </nav>
-      <button class="hamburger" id="hamburger">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-  </header>
+  <div class="page-wrapper">
+    <header class="navbar">
+      <div class="navbar-container">
+        <div class="logo">🌾 Krishi</div>
+        <nav class="nav-links" id="navLinks">
+          <a href="home.html">Home</a>
+          <a href="price.html">Crop Prediction</a>
+          <a href="crop.html">Crop Recommendation</a>
+          <a href="analysis.html">Market Analysis</a>
+          <a href="trend.html">Price Trend</a>
+          <a href="weather.html">Weather</a>
+          <a href="news.html">News</a>
+          <a href="chat.html">Chat</a>
+        </nav>
+        <button class="hamburger" id="hamburger">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
 
-  <div class="prediction-form-container">
-    <h2>🌾 Crop Price Prediction</h2>
-    <form id="predictionForm">
-      <select name="crop" id="crop" required>
-        <option value="">Select Crop</option>
-        <option value="Wheat">Wheat</option>
-        <option value="Maize">Maize</option>
-        <option value="Jowar">Jowar</option>
-        <option value="Soybean">Soybean</option>
-      </select>
+    <div class="prediction-form-container">
+      <h2>🌾 Crop Price Prediction</h2>
+      <form id="predictionForm">
+        <select name="crop" id="crop" required>
+          <option value="">Select Crop</option>
+          <option value="Wheat">Wheat</option>
+          <option value="Maize">Maize</option>
+          <option value="Jowar">Jowar</option>
+          <option value="Soybean">Soybean</option>
+        </select>
 
-      <select name="district" id="district" required>
-        <option value="">Select District</option>
-        <option value="Indore">Indore</option>
-        <option value="Bhopal">Bhopal</option>
-        <option value="Ujjain">Ujjain</option>
-        <option value="Jabalpur">Jabalpur</option>
-        <option value="Gwalior">Gwalior</option>
-        <option value="Rewa">Rewa</option>
-        <option value="Sagar">Sagar</option>
-      </select>
+        <select name="district" id="district" required>
+          <option value="">Select District</option>
+          <option value="Indore">Indore</option>
+          <option value="Bhopal">Bhopal</option>
+          <option value="Ujjain">Ujjain</option>
+          <option value="Jabalpur">Jabalpur</option>
+          <option value="Gwalior">Gwalior</option>
+          <option value="Rewa">Rewa</option>
+          <option value="Sagar">Sagar</option>
+        </select>
 
-      <select name="month" id="month" required>
-        <option value="">Select Month</option>
-        <option value="January">January</option>
-        <option value="February">February</option>
-        <option value="March">March</option>
-        <option value="April">April</option>
-        <option value="May">May</option>
-        <option value="June">June</option>
-        <option value="July">July</option>
-        <option value="August">August</option>
-        <option value="September">September</option>
-        <option value="October">October</option>
-        <option value="November">November</option>
-        <option value="December">December</option>
-      </select>
+        <select name="month" id="month" required>
+          <option value="">Select Month</option>
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+        </select>
 
-      <input
-        type="number"
-        name="year"
-        id="year"
-        placeholder="Enter Year (e.g. 2026)"
-        min="2025"
-        max="2026"
-        required
-      />
+        <input
+          type="number"
+          name="year"
+          id="year"
+          placeholder="Enter Year (e.g. 2026)"
+          min="2025"
+          max="2026"
+          required
+        />
 
-      <select name="soil" id="soil" required>
-        <option value="">Select Soil Type</option>
-        <option value="Sandy">Sandy</option>
-        <option value="Loamy">Loamy</option>
-        <option value="Black">Black</option>
-        <option value="Red">Red</option>
-      </select>
+        <select name="soil" id="soil" required>
+          <option value="">Select Soil Type</option>
+          <option value="Sandy">Sandy</option>
+          <option value="Loamy">Loamy</option>
+          <option value="Black">Black</option>
+          <option value="Red">Red</option>
+        </select>
 
-      <select name="water" id="water" required>
-        <option value="">Select Water Availability</option>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </select>
+        <select name="water" id="water" required>
+          <option value="">Select Water Availability</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
 
-      <button type="submit" id="submitBtn">
-        Predict Price
-      </button>
-    </form>
+        <button type="submit" id="submitBtn">
+          Predict Price
+        </button>
+      </form>
 
-    <div id="error" class="error-message" style="display: none;"></div>
-    
-    <!-- Crop Animation Section -->
-    <div id="cropAnimation" class="crop-animation" style="display: none;">
-      <div class="crop wheat"></div>
-      <div class="crop maize"></div>
-      <div class="crop soybean"></div>
-    </div>
+      <div id="error" class="error-message" style="display: none;"></div>
+      
+      <!-- Crop Animation Section -->
+      <div id="cropAnimation" class="crop-animation" style="display: none;">
+        <div class="crop wheat"></div>
+        <div class="crop maize"></div>
+        <div class="crop soybean"></div>
+      </div>
 
-    <!-- Price Trend Visualization -->
-    <div id="priceTrend" class="price-trend" style="display: none;">
-      <div class="trend-line"></div>
-      <!-- Trend points will be added dynamically -->
-    </div>
+      <!-- Price Trend Visualization -->
+      <div id="priceTrend" class="price-trend" style="display: none;">
+        <div class="trend-line"></div>
+        <!-- Trend points will be added dynamically -->
+      </div>
 
-    <!-- Results Section -->
-    <div id="result" class="result" style="display: none;">
-      <h3>✅ Prediction Results</h3>
-      <div id="inputDetails" class="input-details"></div>
-      <div class="price-results">
-        <p><strong>Predicted Min Price:</strong> ₹<span id="minPrice">0.00</span></p>
-        <p><strong>Predicted Max Price:</strong> ₹<span id="maxPrice">0.00</span></p>
+      <!-- Results Section -->
+      <div id="result" class="result" style="display: none;">
+        <h3>✅ Prediction Results</h3>
+        <div id="inputDetails" class="input-details"></div>
+        <div class="price-results">
+          <p><strong>Predicted Min Price:</strong> ₹<span id="minPrice">0.00</span></p>
+          <p><strong>Predicted Max Price:</strong> ₹<span id="maxPrice">0.00</span></p>
+        </div>
       </div>
     </div>
   </div>
@@ -124,5 +157,3 @@
   <script src="price.js"></script>
 </body>
 </html>
-
-
