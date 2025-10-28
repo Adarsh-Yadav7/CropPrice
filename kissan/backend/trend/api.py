@@ -53,7 +53,7 @@ Use bullet points with emojis.
 only 5 points Answer
 """
 
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("gemini-1.5-pro")
         response = model.generate_content(prompt)
         insight = response.text.strip()
 
@@ -64,3 +64,4 @@ only 5 points Answer
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
