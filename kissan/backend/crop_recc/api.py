@@ -55,7 +55,7 @@ def recommend_crops():
             water_availability=water
         )
 
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("gemini-1.5-pro")
         response = model.generate_content(prompt)
 
         # Extract JSON from response
@@ -84,5 +84,6 @@ def recommend_crops():
             "error": "Server error",
             "details": str(e)
         }), 500
+
 
 
