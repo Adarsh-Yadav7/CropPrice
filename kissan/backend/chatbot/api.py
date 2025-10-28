@@ -30,7 +30,7 @@ def chat():
         return jsonify({"response": "Please ask a question about farming"})
 
     try:
-        model = genai.GenerativeModel("gemini-1.0-pro-latest")
+        model = genai.GenerativeModel("gemini-pro")
         chat_session = model.start_chat(history=[
             {
                 "role": "user",
@@ -48,5 +48,6 @@ def chat():
 
     except Exception as e:
         return jsonify({"response": f"Sorry, I encountered an error: {str(e)}"})
+
 
 
