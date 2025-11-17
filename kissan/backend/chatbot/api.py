@@ -4,7 +4,7 @@ import google.generativeai as genai
 chatbot_bp = Blueprint("chatbot", __name__)  # ✅ This is correct
 
 # ✅ Gemini API Key (secure via env vars in production!)
-GEMINI_API_KEY = "AIzaSyCGS72o8teyhpXI1e5dZFIF-ckSvI1fssg"
+GEMINI_API_KEY = "AIzaSyDiwHqa6Nm74Mb2liUpNPcRNkRjJa3RDyo"
 genai.configure(api_key=GEMINI_API_KEY)
 
 SYSTEM_PROMPT = SYSTEM_PROMPT = """You are KrishiBot, an AI assistant for Indian farmers. Follow these rules:
@@ -30,7 +30,7 @@ def chat():
         return jsonify({"response": "Please ask a question about farming"})
 
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("gemini-flash-latest")
         chat_session = model.start_chat(history=[
             {
                 "role": "user",
@@ -48,6 +48,7 @@ def chat():
 
     except Exception as e:
         return jsonify({"response": f"Sorry, I encountered an error: {str(e)}"})
+
 
 
 
