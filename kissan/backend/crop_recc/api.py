@@ -8,7 +8,7 @@ crop_bp = Blueprint("crop_recc", __name__)
 CORS(crop_bp)
 
 # Configure Gemini
-GEMINI_API_KEY = "AIzaSyCGS72o8teyhpXI1e5dZFIF-ckSvI1fssg"  # Replace with your actual API key
+GEMINI_API_KEY = "AIzaSyDiwHqa6Nm74Mb2liUpNPcRNkRjJa3RDyo"  # Replace with your actual API key
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Prompt Template
@@ -55,7 +55,7 @@ def recommend_crops():
             water_availability=water
         )
 
-        model = genai.GenerativeModel("gemini-1.5-pro")
+        model = genai.GenerativeModel("gemini-flash-latest")
         response = model.generate_content(prompt)
 
         # Extract JSON from response
@@ -84,6 +84,7 @@ def recommend_crops():
             "error": "Server error",
             "details": str(e)
         }), 500
+
 
 
 
