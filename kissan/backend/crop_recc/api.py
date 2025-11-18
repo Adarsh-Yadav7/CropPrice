@@ -5,7 +5,7 @@ import json
 import re
 
 crop_bp = Blueprint("crop_recc", __name__)
-CORS(crop_bp)
+
 
 # Configure Gemini
 GEMINI_API_KEY = "AIzaSyDiwHqa6Nm74Mb2liUpNPcRNkRjJa3RDyo"  # Replace with your actual API key
@@ -84,6 +84,7 @@ def recommend_crops():
             "error": "Server error",
             "details": str(e)
         }), 500
+
 
 
 
