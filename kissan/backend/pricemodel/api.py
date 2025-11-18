@@ -115,7 +115,7 @@ import pandas as pd
 import os
 
 price_bp = Blueprint('pricemodel', __name__)
-
+CORS(price_bp) 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 try:
     min_model = joblib.load(os.path.join(BASE_DIR, "min_price_model.pkl"))
@@ -157,5 +157,6 @@ def predict_price():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
