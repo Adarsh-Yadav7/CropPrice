@@ -8,7 +8,7 @@ trend_bp = Blueprint("trend", __name__)
 CORS(trend_bp)
 
 # Gemini API setup
-GEMINI_API_KEY = "AIzaSyCGS72o8teyhpXI1e5dZFIF-ckSvI1fssg"  # <-- Replace with yours
+GEMINI_API_KEY = "AIzaSyDiwHqa6Nm74Mb2liUpNPcRNkRjJa3RDyo"  # <-- Replace with yours
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Web scraping mock (actual AGMARKNET is hard to scrape live due to JavaScript)
@@ -53,7 +53,7 @@ Use bullet points with emojis.
 only 5 points Answer
 """
 
-        model = genai.GenerativeModel("gemini-1.5-pro")
+        model = genai.GenerativeModel("gemini-flash-latest")
         response = model.generate_content(prompt)
         insight = response.text.strip()
 
@@ -64,4 +64,5 @@ only 5 points Answer
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
