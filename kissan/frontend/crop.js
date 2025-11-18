@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Make API call to Flask backend
-            const response = await fetch('https://fasalkimat.onrender.com', {
+            const response = await fetch('https://fasalkimat.onrender.com/crop_recc/recommend-crops', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -388,4 +388,5 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>`;
     }
 });
+
 
