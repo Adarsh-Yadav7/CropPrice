@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error('Please fill in all fields');
             }
 
-            const response = await fetch('https://fasalkimat.onrender.com/predict', {
+            const response = await fetch('https://croppricekissan.onrender.com/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -316,4 +316,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
 
