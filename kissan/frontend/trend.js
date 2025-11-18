@@ -133,7 +133,7 @@ async function fetchTrend() {
   }
 
   try {
-    const response = await fetch('https://cropprice-64y3.onrender.com/trend/market-trend', {
+    const response = await fetch('https://fasalkimat.onrender.com', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ crop, location })
@@ -197,6 +197,7 @@ backgroundColor: 'rgba(37, 99, 235, 0.08)', // soft vibrant blue transparent
     console.error(error);
   }
 }
+
 
 
 
