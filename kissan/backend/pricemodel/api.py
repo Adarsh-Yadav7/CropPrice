@@ -109,69 +109,14 @@
 # if __name__ != "__main__":
 #     application = app
 
-# from flask import Blueprint, request, jsonify
-# import joblib
-# import pandas as pd
-# import os
-
-# price_bp = Blueprint('pricemodel', __name__)
-# CORS(price_bp, supports_credentials=True) 
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# try:
-#     min_model = joblib.load(os.path.join(BASE_DIR, "min_price_model.pkl"))
-#     max_model = joblib.load(os.path.join(BASE_DIR, "max_price_model.pkl"))
-#     le_crop = joblib.load(os.path.join(BASE_DIR, "le_crop.pkl"))
-#     le_district = joblib.load(os.path.join(BASE_DIR, "le_district.pkl"))
-#     le_month = joblib.load(os.path.join(BASE_DIR, "le_month.pkl"))
-#     le_soil = joblib.load(os.path.join(BASE_DIR, "le_soil.pkl"))
-#     le_water = joblib.load(os.path.join(BASE_DIR, "le_water.pkl"))
-# except Exception as e:
-#     print(f"Error loading models: {e}")
-#     raise e
-
-# @price_bp.route('/predict', methods=['POST'])
-# def predict_price():
-#     try:
-#         data = request.get_json()
-#         required_fields = ['crop', 'district', 'month', 'year', 'soil', 'water']
-#         missing_fields = [field for field in required_fields if field not in data]
-#         if missing_fields:
-#             return jsonify({'error': f'Missing fields: {", ".join(missing_fields)}'}), 400
-
-#         input_data = pd.DataFrame([{
-#             'Crop': le_crop.transform([data['crop']])[0],
-#             'District': le_district.transform([data['district']])[0],
-#             'Month': le_month.transform([data['month']])[0],
-#             'Year': int(data['year']),
-#             'Soil_Type': le_soil.transform([data['soil']])[0],
-#             'Water_Availability': le_water.transform([data['water']])[0]
-#         }])
-
-#         min_price = float(min_model.predict(input_data)[0])
-#         max_price = float(max_model.predict(input_data)[0])
-
-#         return jsonify({
-#             'min_price': round(min_price, 2),
-#             'max_price': round(max_price, 2)
-#         })
-
-#     except Exception as e:
-#         return jsonify({'error': str(e)}), 500
-
-
-
 from flask import Blueprint, request, jsonify
-from flask_cors import CORS
 import joblib
 import pandas as pd
 import os
 
 price_bp = Blueprint('pricemodel', __name__)
-CORS(price_bp, supports_credentials=True)   # 🔥 CORS FIX
-
+CORS(price_bp, supports_credentials=True) 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Load models
 try:
     min_model = joblib.load(os.path.join(BASE_DIR, "min_price_model.pkl"))
     max_model = joblib.load(os.path.join(BASE_DIR, "max_price_model.pkl"))
@@ -184,28 +129,16 @@ except Exception as e:
     print(f"Error loading models: {e}")
     raise e
 
-
-@price_bp.route('/predict', methods=['POST', 'OPTIONS'])
+@price_bp.route('/predict', methods=['POST'])
 def predict_price():
-
-    # ⭐⭐ PRE-FLIGHT CORS FIX ⭐⭐
-    if request.method == "OPTIONS":
-        return jsonify({"message": "CORS preflight OK"}), 200
-
     try:
         data = request.get_json()
-
         required_fields = ['crop', 'district', 'month', 'year', 'soil', 'water']
-        missing = [f for f in required_fields if f not in data]
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({'error': f'Missing fields: {", ".join(missing_fields)}'}), 400
 
-        if missing:
-            return jsonify({
-                "status": "error",
-                "message": f"Missing fields: {', '.join(missing)}"
-            }), 400
-
-        # Encode
-        df = pd.DataFrame([{
+        input_data = pd.DataFrame([{
             'Crop': le_crop.transform([data['crop']])[0],
             'District': le_district.transform([data['district']])[0],
             'Month': le_month.transform([data['month']])[0],
@@ -214,24 +147,91 @@ def predict_price():
             'Water_Availability': le_water.transform([data['water']])[0]
         }])
 
-        min_p = float(min_model.predict(df)[0])
-        max_p = float(max_model.predict(df)[0])
+        min_price = float(min_model.predict(input_data)[0])
+        max_price = float(max_model.predict(input_data)[0])
 
         return jsonify({
-            "status": "success",
-            "data": {
-                "predicted_prices": {
-                    "min": round(min_p, 2),
-                    "max": round(max_p, 2)
-                },
-                "input_data": data
-            }
+            'min_price': round(min_price, 2),
+            'max_price': round(max_price, 2)
         })
 
     except Exception as e:
-        return jsonify({
-            "status": "error",
-            "message": str(e)
-        }), 500
+        return jsonify({'error': str(e)}), 500
+
+
+
+# from flask import Blueprint, request, jsonify
+# from flask_cors import CORS
+# import joblib
+# import pandas as pd
+# import os
+
+# price_bp = Blueprint('pricemodel', __name__)
+# CORS(price_bp, supports_credentials=True)   # 🔥 CORS FIX
+
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# # Load models
+# try:
+#     min_model = joblib.load(os.path.join(BASE_DIR, "min_price_model.pkl"))
+#     max_model = joblib.load(os.path.join(BASE_DIR, "max_price_model.pkl"))
+#     le_crop = joblib.load(os.path.join(BASE_DIR, "le_crop.pkl"))
+#     le_district = joblib.load(os.path.join(BASE_DIR, "le_district.pkl"))
+#     le_month = joblib.load(os.path.join(BASE_DIR, "le_month.pkl"))
+#     le_soil = joblib.load(os.path.join(BASE_DIR, "le_soil.pkl"))
+#     le_water = joblib.load(os.path.join(BASE_DIR, "le_water.pkl"))
+# except Exception as e:
+#     print(f"Error loading models: {e}")
+#     raise e
+
+
+# @price_bp.route('/predict', methods=['POST', 'OPTIONS'])
+# def predict_price():
+
+#     # ⭐⭐ PRE-FLIGHT CORS FIX ⭐⭐
+#     if request.method == "OPTIONS":
+#         return jsonify({"message": "CORS preflight OK"}), 200
+
+#     try:
+#         data = request.get_json()
+
+#         required_fields = ['crop', 'district', 'month', 'year', 'soil', 'water']
+#         missing = [f for f in required_fields if f not in data]
+
+#         if missing:
+#             return jsonify({
+#                 "status": "error",
+#                 "message": f"Missing fields: {', '.join(missing)}"
+#             }), 400
+
+#         # Encode
+#         df = pd.DataFrame([{
+#             'Crop': le_crop.transform([data['crop']])[0],
+#             'District': le_district.transform([data['district']])[0],
+#             'Month': le_month.transform([data['month']])[0],
+#             'Year': int(data['year']),
+#             'Soil_Type': le_soil.transform([data['soil']])[0],
+#             'Water_Availability': le_water.transform([data['water']])[0]
+#         }])
+
+#         min_p = float(min_model.predict(df)[0])
+#         max_p = float(max_model.predict(df)[0])
+
+#         return jsonify({
+#             "status": "success",
+#             "data": {
+#                 "predicted_prices": {
+#                     "min": round(min_p, 2),
+#                     "max": round(max_p, 2)
+#                 },
+#                 "input_data": data
+#             }
+#         })
+
+#     except Exception as e:
+#         return jsonify({
+#             "status": "error",
+#             "message": str(e)
+#         }), 500
 
 
